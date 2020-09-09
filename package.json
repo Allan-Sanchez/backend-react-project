@@ -4,8 +4,8 @@
   "description": "backend of task dashboard",
   "main": "index.js",
   "scripts": {
-    "start":"node .",
-    "dev":"nodemon ."
+    "start": "node .",
+    "dev": "nodemon ."
   },
   "author": "Allan Sanchez",
   "license": "ISC",
@@ -13,8 +13,10 @@
     "nodemon": "^2.0.4"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-validator": "^6.6.1",
     "mongoose": "^5.10.3"
   }
 }

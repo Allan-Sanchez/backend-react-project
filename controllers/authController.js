@@ -3,7 +3,8 @@ const bcryptjs = require('bcryptjs');
 const {validationResult} = require('express-validator');
 const jwt = require('jsonwebtoken');
 
-exports.createUser =async (req,res) =>{
+
+exports.authUser = async (req,res) =>{
     //checking errors
     const errors = validationResult(req);
     if(!errors.isEmpty()){
@@ -13,24 +14,18 @@ exports.createUser =async (req,res) =>{
     const {email,password} = req.body;
 
     try {
-        // cheking tthe email is unique
+        // validate that user exists
         let user = await User.findOne({email});
-
-        if (user) {
-            return res.status(400).json({msg:"user already exists"});
+        if (!user) {
+           return res.status(400).json({ msg:'The user does not exist'});
         }
-
-        // create object
-        user = new User(req.body);
-
-        //salt password by bcryptls
-        const salt =await bcryptjs.genSalt(10);
-        user.password = await bcryptjs.hash(password,salt);
-
-        await user.save();
-
-        // create and sing JWT
-        const payload = {
+        // checking password
+        const passwordCorrect = await bcryptjs.compare(password,user.password);
+        if (!passwordCorrect) {
+            return res.status(400).json({ msg:'The password is not valid'});            
+        }
+           // create and sing JWT
+           const payload = {
             user:{
                 userId:user.id
             }
@@ -43,10 +38,9 @@ exports.createUser =async (req,res) =>{
             res.json({token});
         });
 
-
-        // res.json({msg:"user created corrently"});
+        
     } catch (error) {
         console.log(error);
-        res.status(400).send('there was a mistake');
     }
+
 };

@@ -13,6 +13,7 @@ const PORT = process.env.PORT || 4000;
 
 
 app.use('/api/users',require('./routes/userRoute'));
+app.use('/api/auth',require('./routes/authRoute'));
 
 app.listen(PORT,() =>{
     console.log('server is working into port 4000');

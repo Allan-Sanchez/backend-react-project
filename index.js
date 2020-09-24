@@ -1,11 +1,13 @@
 const express = require('express');
 const connetDB = require('./config/db');
 const { json } = require('express');
+const cors = require('cors');
 //create of server
 const app = express();
 
 // connet mongo
 connetDB();
+app.use(cors());
 
 app.use(express.json({extends:true}));
 

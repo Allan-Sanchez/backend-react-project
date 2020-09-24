@@ -44,3 +44,14 @@ exports.authUser = async (req,res) =>{
     }
 
 };
+
+exports.userCurrently = async (req, res) =>{
+
+    try {
+        const userCurrently =await User.findById(req.user.userId).select('-password');
+        res.json({userCurrently});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg:'There was a mistake'})
+    }
+};

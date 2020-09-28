@@ -14,7 +14,8 @@ exports.createProject = async (req,res) =>{
         project.owner = req.user.userId;
         project.save();
 
-        res.status(401).json({msg:'project successfully created'})
+        // res.status(201).json({msg:'project successfully created'})
+        res.status(201).json(project)
 
 
     } catch (error) {
